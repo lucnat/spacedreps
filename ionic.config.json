@@ -1,0 +1,7 @@
+{
+  "name": "spacedreps",
+  "integrations": {
+    "capacitor": {}
+  },
+  "type": "react"
+}
