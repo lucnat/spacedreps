@@ -15,7 +15,7 @@ class Collections extends React.Component {
         DB.db.collection('collections').add({name})
       }}>
         <IonFabButton>
-          <IonIcon icon={add}></IonIcon>
+          <IonIcon color="light" icon={add}></IonIcon>
         </IonFabButton>
       </IonFab>
     )

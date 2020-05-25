@@ -8,6 +8,7 @@ ion-card-subtitle {
   margin: 16px;
   border-radius: 7px;
   box-shadow: 6px 6px 19px 0px rgba(214,214,214,1);
+  height: 200px;
 }
 
 ion-button {
@@ -20,4 +21,12 @@ ion-button {
 
 a {
   text-decoration: none;
+}
+
+.ion-fab-button {
+  color: white;
+}
+
+.ionicon {
+  color: white;
 }

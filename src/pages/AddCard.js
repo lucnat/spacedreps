@@ -1,7 +1,7 @@
 
 import React from 'react'
 import Page from "../components/Page"
-import { IonTextarea, IonItemDivider, IonItem, IonList, IonButton } from '@ionic/react'
+import { IonTextarea, IonItemDivider, IonItem, IonList, IonButton, IonSelect, IonSelectOption, IonLabel } from '@ionic/react'
 import Card from '../components/Card'
 import DB from '../db';
 
@@ -13,14 +13,18 @@ class AddCard extends React.Component {
     backText: '',
     backLatex: '',
     flipped: false,
-    collection: 'none',
     collectionId: null, 
+    collections: [],
     modalOpen: false
   }
 
   constructor(props) {
     super(props);
-    this.card = React.createRef()
+    this.card = React.createRef();
+  }
+
+  componentDidMount() {
+    DB.getAll('collections', collections => this.setState({collections}));
   }
 
   render() {
@@ -63,12 +67,18 @@ class AddCard extends React.Component {
           }}>
           flip
         </IonButton>
-        <p style={{padding: 16, paddingBottom: 0, paddingTop: 0}}>
-          Collection: {this.state.collection} 
-          <IonButton onClick={() => {
-            this.setState({})
-          }} size="small" style={{display: 'absolute', marginBottom: 12, marginLeft: 10 }}>Select</IonButton>
-        </p>
+        <IonList>
+          <IonItem>
+            <IonLabel>Collection</IonLabel>
+            <IonSelect interface="popover" onIonChange={e => this.setState({collectionId: e.target.value})}>
+            <IonSelectOption value={null}>None</IonSelectOption>
+              {this.state.collections.map(collection => 
+                <IonSelectOption key={collection.id} value={collection.id}>{collection.name}</IonSelectOption>
+                )}
+            </IonSelect>
+          </IonItem>
+        </IonList>
+
         <div style={{padding: 16, paddingTop: 0}}>
           <IonButton expand="block" onClick={() => {
             let card = {
