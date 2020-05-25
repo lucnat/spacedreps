@@ -14,6 +14,8 @@ import { ellipse, square, triangle, rocket, rocketOutline, person, personOutline
 import Cards from './pages/Cards';
 import Tab2 from './pages/Tab2';
 import Profile from './pages/Profile';
+import AddCards from './pages/AddCards';
+import AddCard from './pages/AddCard';
 
 /* Core CSS required for Ionic components to work properly */
 import '@ionic/react/css/core.css';
@@ -41,6 +43,8 @@ const App = () => (
       <IonTabs>
         <IonRouterOutlet>
           <Route path="/cards" component={Cards} exact={true} />
+          <Route path="/addcards/single" component={AddCard} exact={true} />
+          <Route path="/addcards" component={AddCards} exact={true} />
           <Route path="/tab2" component={Tab2} exact={true} />
           <Route path="/profile" component={Profile} />
           <Route path="/" render={() => <Redirect to="/cards" />} exact={true} />
