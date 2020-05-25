@@ -30,14 +30,15 @@ class Cards extends React.Component {
   state = {cards: []}
 
   componentDidMount() {
-    const cards = db.get('cards').value();
-    this.setState({cards});
+    db.listenToAll('cards', cards => {
+      this.setState({cards});
+    })
   }
 
   render() {
     return (
       <Page title="Cards" large renderButtonsRight={() => 
-        <IonButton routerLink="/addcards">
+        <IonButton routerLink="/add">
           <IonIcon icon={add} />
         </IonButton>
       }>

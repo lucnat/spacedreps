@@ -17,3 +17,7 @@ ion-button {
 .textarea-wrapper {
   border-bottom: 1px dotted #ccc;
 }
+
+a {
+  text-decoration: none;
+}

@@ -10,11 +10,10 @@ import {
   IonTabs
 } from '@ionic/react';
 import { IonReactRouter } from '@ionic/react-router';
-import { ellipse, square, triangle, rocket, rocketOutline, person, personOutline, ellipseOutline } from 'ionicons/icons';
+import { ellipse, square, triangle, rocket, rocketOutline, person, personOutline, ellipseOutline, folderOutline } from 'ionicons/icons';
 import Cards from './pages/Cards';
-import Tab2 from './pages/Tab2';
 import Profile from './pages/Profile';
-import AddCards from './pages/AddCards';
+import AddCards from './pages/Add';
 import AddCard from './pages/AddCard';
 
 /* Core CSS required for Ionic components to work properly */
@@ -38,6 +37,8 @@ import './theme/variables.css';
 import './theme/style.css';
 
 import './db'
+import Collections from './pages/Collections';
+import Collection from './pages/Collection';
 
 const App = () => (
   <IonApp>
@@ -46,8 +47,9 @@ const App = () => (
         <IonRouterOutlet>
           <Route path="/cards" component={Cards} exact={true} />
           <Route path="/addcards/single" component={AddCard} exact={true} />
-          <Route path="/addcards" component={AddCards} exact={true} />
-          <Route path="/tab2" component={Tab2} exact={true} />
+          <Route path="/add" component={AddCards} exact={true} />
+          <Route path="/collections/:id" component={Collection} exact={true} />
+          <Route path="/collections" component={Collections} exact={true} />
           <Route path="/profile" component={Profile} />
           <Route path="/" render={() => <Redirect to="/cards" />} exact={true} />
         </IonRouterOutlet>
@@ -55,9 +57,9 @@ const App = () => (
           <IonTabButton tab="tab1" href="/cards">
             <IonIcon icon={rocketOutline} />
           </IonTabButton>
-          {/* <IonTabButton tab="tab2" href="/tab2">
-            <IonIcon icon={ellipseOutline} />
-          </IonTabButton> */}
+          <IonTabButton tab="tab2" href="/collections">
+            <IonIcon icon={folderOutline} />
+          </IonTabButton>
           <IonTabButton tab="tab3" href="/profile">
             <IonIcon icon={personOutline} />
           </IonTabButton>

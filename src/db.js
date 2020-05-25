@@ -1,18 +1,65 @@
 
-const low = require('lowdb')
-const LocalStorage = require('lowdb/adapters/LocalStorage')
-const adapter = new LocalStorage('db');
-const db = low(adapter);
+import firebaseApp from './firebaseApp'
 
-window.db = db;
+const db = firebaseApp.firestore();
 
-db.defaults({ 
-    cards: [],
-    profile: {}
-}).write()
+/*
+  Luc's handy wrappers
+  ====================
 
+  Usage:
 
-// const state = db.getState();
-// console.log(state);
+    DB.getAll('mushrooms',docs => {console.log(docs)})        returns all docs
+    DB.getOne('mushrooms',id,doc => {console.log(doc)})     returns one doc by id
 
-export default db;
+*/
+
+function listenToAll(collName, onUpdate) {
+  db.collection(collName).onSnapshot(function(querySnapshot) {
+    let docs = [];
+    querySnapshot.forEach(function(doc) {
+      docs.push({id: doc.id, ...doc.data()});
+    });
+    onUpdate(docs);
+  });
+}
+
+function listenToOne(collName, id, onUpdate) {
+  db.collection(collName).doc(id).onSnapshot(doc => {
+    const data = doc.data();
+    onUpdate({id, ...data});
+  })
+}
+
+function listenToUser(onUpdate) {
+  firebaseApp.auth().onAuthStateChanged(function(user) {
+    onUpdate(user)
+  });
+}
+
+function getAll(collName,callback) {
+  db.collection(collName).get().then(querySnapshot => {
+    const docs = querySnapshot.docs.map(doc => { return {id: doc.id, ...doc.data()} });
+    callback(docs);
+  }); 
+}
+
+function getOne(collName, id, callback) {
+  db.collection(collName).doc(id).get().then(doc => {
+    const data = doc.data();
+    callback({id, ...data});
+  })
+}
+
+const DB = {
+  db,
+  getAll,
+  getOne,
+  listenToAll,
+  listenToOne,
+  listenToUser,
+}
+
+window.DB = DB;
+
+export default DB;

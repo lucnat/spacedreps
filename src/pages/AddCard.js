@@ -3,7 +3,7 @@ import React from 'react'
 import Page from "../components/Page"
 import { IonTextarea, IonItemDivider, IonItem, IonList, IonButton } from '@ionic/react'
 import Card from '../components/Card'
-import db from '../db';
+import DB from '../db';
 
 class AddCard extends React.Component {
 
@@ -12,7 +12,10 @@ class AddCard extends React.Component {
     frontLatex: '',
     backText: '',
     backLatex: '',
-    flipped: false
+    flipped: false,
+    collection: 'none',
+    collectionId: null, 
+    modalOpen: false
   }
 
   constructor(props) {
@@ -60,13 +63,25 @@ class AddCard extends React.Component {
           }}>
           flip
         </IonButton>
-        <div style={{padding: 16}}>
+        <p style={{padding: 16, paddingBottom: 0, paddingTop: 0}}>
+          Collection: {this.state.collection} 
+          <IonButton onClick={() => {
+            this.setState({})
+          }} size="small" style={{display: 'absolute', marginBottom: 12, marginLeft: 10 }}>Select</IonButton>
+        </p>
+        <div style={{padding: 16, paddingTop: 0}}>
           <IonButton expand="block" onClick={() => {
-            const card = this.state;
-            delete card.flipped;
+            let card = {
+              frontText: this.state.frontText,
+              frontLatex: this.state.frontLatex,
+              backText: this.state.backText,
+              backLatex: this.state.backLatex,
+              collectionId: this.state.collectionId
+            }
             card.id = "" + new Date().getTime();
-            db.get('cards').push(card).write();
-            this.props.history.replace('/cards');
+            DB.db.collection('cards').add(card).then(() => {
+              this.props.history.replace('/cards');
+            });
           }}>Save</IonButton>
         </div>
       </Page>
