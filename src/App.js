@@ -37,6 +37,8 @@ import '@ionic/react/css/display.css';
 import './theme/variables.css';
 import './theme/style.css';
 
+import './db'
+
 const App = () => (
   <IonApp>
     <IonReactRouter>

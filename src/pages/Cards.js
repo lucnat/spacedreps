@@ -4,6 +4,7 @@ import { IonContent, IonHeader, IonPage, IonTitle, IonToolbar, IonCard, IonCardH
 import Page from '../components/Page';
 import Card from '../components/Card';
 import { add } from 'ionicons/icons';
+import db from '../db';
 
 const tex = `f(x) = \\int_{-\\infty}^\\infty\\hat f(\\xi)\\,e^{2 \\pi i \\xi x}\\,d\\xi`
 
@@ -24,16 +25,26 @@ let cards = [
   },
 ]
 
-const Cards = () => {
-  return (
-    <Page title="Cards" large renderButtonsRight={() => 
-      <IonButton routerLink="/addcards">
-        <IonIcon icon={add} />
-      </IonButton>
-    }>
-      {cards.map (card => <Card card={card} key={card.id} />)}
-    </Page>
-  );
-};
+class Cards extends React.Component {
+
+  state = {cards: []}
+
+  componentDidMount() {
+    const cards = db.get('cards').value();
+    this.setState({cards});
+  }
+
+  render() {
+    return (
+      <Page title="Cards" large renderButtonsRight={() => 
+        <IonButton routerLink="/addcards">
+          <IonIcon icon={add} />
+        </IonButton>
+      }>
+        {this.state.cards.map (card => <Card card={card} key={card.id} />)}
+      </Page>  
+    );
+  }
+}
 
 export default Cards;

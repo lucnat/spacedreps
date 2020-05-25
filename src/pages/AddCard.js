@@ -3,6 +3,7 @@ import React from 'react'
 import Page from "../components/Page"
 import { IonTextarea, IonItemDivider, IonItem, IonList, IonButton } from '@ionic/react'
 import Card from '../components/Card'
+import db from '../db';
 
 class AddCard extends React.Component {
 
@@ -60,7 +61,13 @@ class AddCard extends React.Component {
           flip
         </IonButton>
         <div style={{padding: 16}}>
-          <IonButton expand="block">Save</IonButton>
+          <IonButton expand="block" onClick={() => {
+            const card = this.state;
+            delete card.flipped;
+            card.id = "" + new Date().getTime();
+            db.get('cards').push(card).write();
+            this.props.history.replace('/cards');
+          }}>Save</IonButton>
         </div>
       </Page>
     )
