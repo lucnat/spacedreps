@@ -3,6 +3,7 @@ import { IonContent, IonHeader, IonPage, IonTitle, IonToolbar, IonButton, IonIco
 import Page from '../components/Page';
 import DB from '../db';
 import { logOutOutline } from 'ionicons/icons';
+import firebase from "firebase"
 
 class Profile extends React.Component {
 
@@ -16,7 +17,10 @@ class Profile extends React.Component {
     return (
       <Page title="Profile" large padding>
         <p>Logged in as <b>{this.state.user.email}</b></p>
-        <IonButton>Sign Out</IonButton>
+        <IonButton onClick={() => {
+          if(!window.confirm('Sign out?')) return;
+          firebase.auth().signOut();
+        }}>Sign Out</IonButton>
 
         <h1>About this app</h1>
         <p>
