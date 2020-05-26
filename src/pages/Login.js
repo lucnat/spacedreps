@@ -26,6 +26,10 @@ class Login extends React.Component {
     return (
       <Page title="Sign In" padding large >
         <div id="firebaseui-auth-container"></div>  
+        <p>
+          Your data is stored securely and anonymously. <br />
+          Having an account allows you to add cards with Latex conveniently at your PC.
+        </p>
       </Page>
     );
   }

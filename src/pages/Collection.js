@@ -3,7 +3,7 @@ import React from 'react'
 import Page from '../components/Page';
 import DB from '../db';
 import Card from '../components/Card';
-import { IonButton, IonIcon, IonActionSheet, IonFab, IonFabButton } from '@ionic/react';
+import { IonButton, IonIcon, IonActionSheet, IonFab, IonFabButton, IonSearchbar } from '@ionic/react';
 import { ellipsisHorizontal, add } from 'ionicons/icons';
 
 class Collection extends React.Component {
@@ -12,7 +12,8 @@ class Collection extends React.Component {
     collection: null,
     cards: [],
     modalOpen: false,
-    actionOpen: false
+    actionOpen: false,
+    searchText: ''
   }
 
   componentDidMount() {
@@ -84,15 +85,21 @@ class Collection extends React.Component {
 
   render() {
     if(!this.state.collection) return <Page title="Collection" large />
+    const filtered = this.state.cards.filter(card => {
+      if(card.frontText.toLowerCase().includes(this.state.searchText.toLowerCase())) return true;
+      if(card.backText.toLowerCase().includes(this.state.searchText.toLowerCase())) return true;
+      if(card.frontLatex.toLowerCase().includes(this.state.searchText.toLowerCase())) return true;
+      if(card.backLatex.toLowerCase().includes(this.state.searchText.toLowerCase())) return true;
+    })
     return (
       <Page title={this.state.collection.name} large renderButtonsRight={() => 
         <IonButton onClick={() => this.setState({actionOpen: true})}>
           <IonIcon icon={ellipsisHorizontal}/>
         </IonButton>
-      }>
-        {this.state.cards.map(c => <Card history={this.props.history} key={c.id} card={c} renderDots/>)}
+      } renderDirectChildren={this.renderAddButton.bind(this)}>
+        <IonSearchbar onIonChange={e => this.setState({searchText: e.target.value})}></IonSearchbar>
+        {filtered.map(c => <Card history={this.props.history} key={c.id} card={c} renderDots/>)}
         {this.renderActionSheet()}
-        {this.renderAddButton()}
       </Page>
     );
   }

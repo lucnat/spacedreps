@@ -2,7 +2,7 @@
 import * as Ion from '@ionic/react';
 import React from 'react';
 
-import {IonButtons, IonActionSheet, IonBackdrop } from '@ionic/react';
+import {IonButtons, IonActionSheet, IonBackdrop, IonToolbar } from '@ionic/react';
 
 /*
 	Usage:

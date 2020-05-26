@@ -45,6 +45,34 @@ class Collections extends React.Component {
             </IonItem>
           )}
         </IonList>
+        <IonList>
+          {this.state.collections.map(c => 
+            <IonItem key={c.id} routerLink={'/collections/'+c.id}>
+              <b>{c.name}</b>
+            </IonItem>
+          )}
+        </IonList>
+        <IonList>
+          {this.state.collections.map(c => 
+            <IonItem key={c.id} routerLink={'/collections/'+c.id}>
+              <b>{c.name}</b>
+            </IonItem>
+          )}
+        </IonList>
+        <IonList>
+          {this.state.collections.map(c => 
+            <IonItem key={c.id} routerLink={'/collections/'+c.id}>
+              <b>{c.name}</b>
+            </IonItem>
+          )}
+        </IonList>
+        <IonList>
+          {this.state.collections.map(c => 
+            <IonItem key={c.id} routerLink={'/collections/'+c.id}>
+              <b>{c.name}</b>
+            </IonItem>
+          )}
+        </IonList>
       </Page>
 
     )
