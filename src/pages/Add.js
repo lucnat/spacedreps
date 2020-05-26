@@ -2,12 +2,18 @@
 import React from 'react'
 import Page from '../components/Page';
 import { IonButton } from '@ionic/react';
+import DB from '../db';
 
 const Add = (props) => (
   <Page title="Add" large padding>
     <h2>Collection</h2>
     <p>Create a collection to organize different types of cards. </p>
-    <IonButton>Create new collection</IonButton> <br />
+    <IonButton onClick={() => {
+        const name = prompt('Enter collection name');
+        if(!name) return;
+        DB.db.collection('collections').add({name})
+        props.history.replace('/collections')
+      }}>Create new collection</IonButton> <br />
 
     <h2>Card</h2>
     <IonButton routerLink="/addcards/single">Create card</IonButton>

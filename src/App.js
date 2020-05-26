@@ -3,14 +3,13 @@ import { Redirect, Route } from 'react-router-dom';
 import {
   IonApp,
   IonIcon,
-  IonLabel,
   IonRouterOutlet,
   IonTabBar,
   IonTabButton,
   IonTabs
 } from '@ionic/react';
 import { IonReactRouter } from '@ionic/react-router';
-import { ellipse, square, triangle, rocket, rocketOutline, person, personOutline, ellipseOutline, folderOutline } from 'ionicons/icons';
+import { personOutline, folderOutline } from 'ionicons/icons';
 import Cards from './pages/Cards';
 import Profile from './pages/Profile';
 import AddCards from './pages/Add';
@@ -39,6 +38,7 @@ import './theme/style.css';
 import './db'
 import Collections from './pages/Collections';
 import Collection from './pages/Collection';
+import UncategorizedCards from './pages/UncategorizedCards';
 
 const App = () => (
   <IonApp>
@@ -48,15 +48,16 @@ const App = () => (
           <Route path="/cards" component={Cards} exact={true} />
           <Route path="/addcards/single" component={AddCard} exact={true} />
           <Route path="/add" component={AddCards} exact={true} />
+          <Route path="/collections/uncategorized" component={UncategorizedCards} exact={true} />
           <Route path="/collections/:id" component={Collection} exact={true} />
           <Route path="/collections" component={Collections} exact={true} />
           <Route path="/profile" component={Profile} />
-          <Route path="/" render={() => <Redirect to="/cards" />} exact={true} />
+          <Route path="/" render={() => <Redirect to="/collections" />} exact={true} />
         </IonRouterOutlet>
         <IonTabBar slot="bottom">
-          <IonTabButton tab="tab1" href="/cards">
+          {/* <IonTabButton tab="tab1" href="/cards">
             <IonIcon icon={rocketOutline} />
-          </IonTabButton>
+          </IonTabButton> */}
           <IonTabButton tab="tab2" href="/collections">
             <IonIcon icon={folderOutline} />
           </IonTabButton>

@@ -13,7 +13,7 @@ class AddCard extends React.Component {
     backText: '',
     backLatex: '',
     flipped: false,
-    collectionId: null, 
+    collectionId: 'none', 
     collections: [],
     modalOpen: false
   }
@@ -68,10 +68,10 @@ class AddCard extends React.Component {
           flip
         </IonButton>
         <IonList>
-          <IonItem>
+          <IonItem lines="none">
             <IonLabel>Collection</IonLabel>
             <IonSelect interface="popover" onIonChange={e => this.setState({collectionId: e.target.value})}>
-            <IonSelectOption value={null}>None</IonSelectOption>
+            <IonSelectOption value={'none'}>None</IonSelectOption>
               {this.state.collections.map(collection => 
                 <IonSelectOption key={collection.id} value={collection.id}>{collection.name}</IonSelectOption>
                 )}
@@ -88,7 +88,6 @@ class AddCard extends React.Component {
               backLatex: this.state.backLatex,
               collectionId: this.state.collectionId
             }
-            card.id = "" + new Date().getTime();
             DB.db.collection('cards').add(card).then(() => {
               this.props.history.replace('/cards');
             });
