@@ -22,8 +22,8 @@ class Collections extends React.Component {
       <Page title="Collections" large 
         renderDirectChildren={this.renderAddButton.bind(this)}
       >
-        <DocsList collection="collections" h2={doc => doc.name} />
-        <IonList>
+        <DocsList collection="collections" h2={doc => doc.name}/>
+        <IonList mode="ios">
           <IonItem routerLink="/collections/uncategorized">
             <b>Uncategorized</b>
           </IonItem>

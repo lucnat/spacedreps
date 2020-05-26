@@ -33,7 +33,7 @@ export default class extends React.Component {
   render() {
 
     return (
-      <Ion.IonList>
+      <Ion.IonList mode="ios">
         {this.state.docs.map(doc => (
           <Link to={'/'+this.props.collection+'/'+doc.id} key={doc.id}>
             <Ion.IonItem button >
