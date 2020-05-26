@@ -59,7 +59,8 @@ class App extends React.Component {
           <IonTabs>
             <IonRouterOutlet>
               <Route path="/cards" component={Cards} exact={true} />
-              <Route path="/addcards/single" component={AddCard} exact={true} />
+              <Route path="/add/card/:id" component={AddCard} exact={true} />
+              <Route path="/add/card" component={AddCard} exact={true} />
               <Route path="/add" component={AddCards} exact={true} />
               <Route path="/collections/uncategorized" component={UncategorizedCards} exact={true} />
               <Route path="/collections/:id" component={Collection} exact={true} />

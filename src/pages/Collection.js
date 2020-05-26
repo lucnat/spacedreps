@@ -3,8 +3,8 @@ import React from 'react'
 import Page from '../components/Page';
 import DB from '../db';
 import Card from '../components/Card';
-import { IonButton, IonIcon, IonActionSheet } from '@ionic/react';
-import { ellipsisHorizontal } from 'ionicons/icons';
+import { IonButton, IonIcon, IonActionSheet, IonFab, IonFabButton } from '@ionic/react';
+import { ellipsisHorizontal, add } from 'ionicons/icons';
 
 class Collection extends React.Component {
 
@@ -32,6 +32,16 @@ class Collection extends React.Component {
   
   }
 
+  renderAddButton() {
+    return (
+      <IonFab vertical="bottom" horizontal="end" slot="fixed">
+        <IonFabButton routerLink="/add">
+          <IonIcon color="light" icon={add}></IonIcon>
+        </IonFabButton>
+      </IonFab>
+    )
+  }
+
   renderActionSheet() {
     return (
       <IonActionSheet
@@ -39,7 +49,7 @@ class Collection extends React.Component {
         onDidDismiss={() => this.setState({actionOpen: false})}
         buttons={[
           {
-            text: '\xa0 Edit',
+            text: '\xa0 Edit Collection',
             handler: () => {
               const name = window.prompt('Enter new name',this.state.collection.name);
               if(name && name.length == 0) alert('name too short');
@@ -47,7 +57,7 @@ class Collection extends React.Component {
             }
           }, 
           {
-            text: '\xa0 Delete',
+            text: '\xa0 Delete Collection',
             role: 'destructive',
             handler: () => {
               if(!window.confirm('Delete entire collection? This will remove all cards in this collection, too.')) return;
@@ -69,7 +79,6 @@ class Collection extends React.Component {
         }]}
       >
       </IonActionSheet>
-
     )
   }
 
@@ -81,8 +90,9 @@ class Collection extends React.Component {
           <IonIcon icon={ellipsisHorizontal}/>
         </IonButton>
       }>
-        {this.state.cards.map(c => <Card key={c.id} card={c} renderDots/>)}
+        {this.state.cards.map(c => <Card history={this.props.history} key={c.id} card={c} renderDots/>)}
         {this.renderActionSheet()}
+        {this.renderAddButton()}
       </Page>
     );
   }

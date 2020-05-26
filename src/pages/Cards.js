@@ -42,7 +42,7 @@ class Cards extends React.Component {
           <IonIcon icon={add} />
         </IonButton>
       }>
-        {this.state.cards.map (card => <Card card={card} key={card.id} />)}
+        {this.state.cards.map (card => <Card card={card} history={this.props.history} key={card.id} />)}
       </Page>  
     );
   }

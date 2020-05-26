@@ -22,6 +22,15 @@ class AddCard extends React.Component {
   constructor(props) {
     super(props);
     this.card = React.createRef();
+
+    // initialize state if it is an edit
+    const cardId = this.props.match.params.id;
+    if(cardId){
+      DB.getOne('cards',cardId,card => {
+        console.log(card);
+        this.setState({...card});
+      })
+    }
   }
 
   componentDidMount() {
@@ -73,7 +82,11 @@ class AddCard extends React.Component {
         <IonList>
           <IonItem lines="none">
             <IonLabel>Collection</IonLabel>
-            <IonSelect interface="popover" onIonChange={e => this.setState({collectionId: e.target.value})}>
+            <IonSelect 
+            interface="popover" 
+            value={this.state.collectionId}
+            onIonChange={e => this.setState({collectionId: e.target.value})}
+            >
               {this.state.collections.map(collection => 
                 <IonSelectOption key={collection.id} value={collection.id}>{collection.name}</IonSelectOption>
                 )}
@@ -95,9 +108,20 @@ class AddCard extends React.Component {
               collectionId: this.state.collectionId,
               uid: firebase.auth().currentUser.uid
             }
-            DB.db.collection('cards').add(card).then(() => {
-              this.props.history.replace('/cards');
-            });
+            
+            const cardId = this.props.match.params.id;
+            if(cardId) {
+              // it is an edit
+              DB.db.collection('cards').doc(cardId).set(card).then(() => {
+                this.props.history.replace('/collections');
+                this.props.history.push('/collections/'+this.state.collectionId);
+              })
+            } else {
+              DB.db.collection('cards').add(card).then(() => {
+                this.props.history.replace('/collections');
+                this.props.history.push('/collections/'+this.state.collectionId);
+              });  
+            }
           }}>Save</IonButton>
         </div>
       </Page>

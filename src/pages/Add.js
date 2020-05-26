@@ -20,7 +20,7 @@ const Add = (props) => (
       }}>Create new collection</IonButton> <br />
 
     <h2>Card</h2>
-    <IonButton routerLink="/addcards/single">Create card</IonButton>
+    <IonButton routerLink="/add/card">Create card</IonButton>
   </Page>
 )
 

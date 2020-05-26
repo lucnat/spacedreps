@@ -1,9 +1,10 @@
 
 import React from 'react'
 import ReactCardFlip from 'react-card-flip';
-import { IonCard, IonCardContent, IonButton, IonIcon } from '@ionic/react';
+import { IonCard, IonCardContent, IonButton, IonIcon, IonActionSheet } from '@ionic/react';
 import MathJax from 'react-mathjax2'
 import { ellipsisHorizontal, handRight } from 'ionicons/icons';
+import DB from '../db';
 
 function Latex(props) {
   return (
@@ -17,23 +18,51 @@ function Latex(props) {
 class Card extends React.Component {
 
   state = {
-    flipped: false
+    flipped: false,
+    actionSheetOpen: false
   }
 
   handleClick() {
     this.setState(prevState => ({ isFlipped: !prevState.isFlipped }));
   }
 
+  renderActionSheet() {
+    return (
+      <IonActionSheet
+        isOpen={this.state.actionSheetOpen}
+        onDidDismiss={() => this.setState({actionSheetOpen: false})}
+        buttons={[
+          {
+            text: '\xa0 Edit Card',
+            handler: () => {
+              this.props.history.push('/add/card/'+this.props.card.id)
+            }
+          }, 
+          {
+            text: '\xa0 Delete Card',
+            role: 'destructive',
+            handler: () => {
+              DB.db.collection('cards').doc(this.props.card.id).delete()
+            }
+          }, 
+            {
+          text: '\xa0 Cancel',
+          role: 'cancel'
+        }]}
+      >
+      </IonActionSheet>
+    )
+  }  
+
   renderDots() {
     if(this.props.renderDots) return (
       <div style={{position: 'absolute', width: '100%', textAlign: 'right'}}>
         <IonIcon style={{marginRight: 50, marginTop: 10, color: '#aaa'}} onClick={e => {
-          e.preventDefault();
           e.stopPropagation();
-          console.log('stuff')
+          this.setState({actionSheetOpen: true})
         }} icon={ellipsisHorizontal} />
-    </div>
-)
+      </div>
+    ) 
   }
 
   render() {
@@ -71,6 +100,7 @@ class Card extends React.Component {
             </div>
         </ReactCardFlip>
         </div>
+        {this.renderActionSheet()}
       </div>
     );
   }
