@@ -24,6 +24,18 @@ function listenToAll(collName, onUpdate) {
   });
 }
 
+function listenToAllWhere(collName,where1,where2,where3,onUpdate) {
+  db.collection(collName).where(where1,where2,where3).onSnapshot(function(querySnapshot) {
+    let docs = [];
+    querySnapshot.forEach(function(doc) {
+      docs.push({id: doc.id, ...doc.data()});
+    });
+    onUpdate(docs);
+  });
+}
+
+
+
 function listenToOne(collName, id, onUpdate) {
   db.collection(collName).doc(id).onSnapshot(doc => {
     const data = doc.data();
@@ -56,6 +68,7 @@ const DB = {
   getAll,
   getOne,
   listenToAll,
+  listenToAllWhere,
   listenToOne,
   listenToUser,
 }

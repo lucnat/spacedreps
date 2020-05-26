@@ -3,7 +3,8 @@ import React from 'react'
 import Page from "../components/Page"
 import { IonTextarea, IonItemDivider, IonItem, IonList, IonButton, IonSelect, IonSelectOption, IonLabel } from '@ionic/react'
 import Card from '../components/Card'
-import DB from '../db';
+import DB from '../db'
+import firebase from 'firebase'
 
 class AddCard extends React.Component {
 
@@ -13,7 +14,7 @@ class AddCard extends React.Component {
     backText: '',
     backLatex: '',
     flipped: false,
-    collectionId: 'none', 
+    collectionId: null, 
     collections: [],
     modalOpen: false
   }
@@ -24,7 +25,9 @@ class AddCard extends React.Component {
   }
 
   componentDidMount() {
-    DB.getAll('collections', collections => this.setState({collections}));
+    DB.listenToUser(user => {
+      DB.listenToAllWhere('collections','uid','==',user.uid, collections => this.setState({collections}))
+    })
   }
 
   render() {
@@ -71,7 +74,6 @@ class AddCard extends React.Component {
           <IonItem lines="none">
             <IonLabel>Collection</IonLabel>
             <IonSelect interface="popover" onIonChange={e => this.setState({collectionId: e.target.value})}>
-            <IonSelectOption value={'none'}>None</IonSelectOption>
               {this.state.collections.map(collection => 
                 <IonSelectOption key={collection.id} value={collection.id}>{collection.name}</IonSelectOption>
                 )}
@@ -81,12 +83,17 @@ class AddCard extends React.Component {
 
         <div style={{padding: 16, paddingTop: 0}}>
           <IonButton expand="block" onClick={() => {
+            if(!this.state.collectionId) {
+              alert('Please select a collection for your card');
+              return;
+            }
             let card = {
               frontText: this.state.frontText,
               frontLatex: this.state.frontLatex,
               backText: this.state.backText,
               backLatex: this.state.backLatex,
-              collectionId: this.state.collectionId
+              collectionId: this.state.collectionId,
+              uid: firebase.auth().currentUser.uid
             }
             DB.db.collection('cards').add(card).then(() => {
               this.props.history.replace('/cards');

@@ -4,8 +4,24 @@ import Page from '../components/Page';
 import DocsList from '../components/DocsList';
 import { add } from 'ionicons/icons';
 import DB from '../db';
+import firebase from 'firebase';
 
 class Collections extends React.Component {
+
+  state = {collections: []}
+  componentDidMount() {
+    DB.listenToUser(user => {
+      DB.listenToAllWhere('collections','uid','==',user.uid,collections => {
+        this.setState({collections});
+        if(collections.length == 0) {
+          DB.db.collection('collections').add({
+            name: 'Random',
+            uid: user.uid
+          })
+        }
+      })
+    })
+  }
 
   renderAddButton() {
     return (
@@ -22,11 +38,12 @@ class Collections extends React.Component {
       <Page title="Collections" large 
         renderDirectChildren={this.renderAddButton.bind(this)}
       >
-        <DocsList collection="collections" h2={doc => doc.name}/>
-        <IonList mode="ios">
-          <IonItem routerLink="/collections/uncategorized">
-            <b>Uncategorized</b>
-          </IonItem>
+        <IonList>
+          {this.state.collections.map(c => 
+            <IonItem key={c.id} routerLink={'/collections/'+c.id}>
+              <b>{c.name}</b>
+            </IonItem>
+          )}
         </IonList>
       </Page>
 

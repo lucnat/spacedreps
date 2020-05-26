@@ -1,8 +1,9 @@
 
 import React from 'react'
 import ReactCardFlip from 'react-card-flip';
-import { IonCard, IonCardContent, IonButton } from '@ionic/react';
+import { IonCard, IonCardContent, IonButton, IonIcon } from '@ionic/react';
 import MathJax from 'react-mathjax2'
+import { ellipsisHorizontal, handRight } from 'ionicons/icons';
 
 function Latex(props) {
   return (
@@ -23,17 +24,32 @@ class Card extends React.Component {
     this.setState(prevState => ({ isFlipped: !prevState.isFlipped }));
   }
 
+  renderDots() {
+    if(this.props.renderDots) return (
+      <div style={{position: 'absolute', width: '100%', textAlign: 'right'}}>
+        <IonIcon style={{marginRight: 50, marginTop: 10, color: '#aaa'}} onClick={e => {
+          e.preventDefault();
+          e.stopPropagation();
+          console.log('stuff')
+        }} icon={ellipsisHorizontal} />
+    </div>
+)
+  }
+
   render() {
     const card = this.props.card
 
     return (
-      <div>
+      <div style={{textAlign: 'center'}}>
+        <div style={{maxWidth: 500, margin: '0 auto'}}>
         <ReactCardFlip isFlipped={typeof this.props.flipped !== 'undefined' ? this.props.flipped : this.state.isFlipped}>
             <div
               onClick={this.handleClick.bind(this)} 
               className="card" 
               style={{height: 200, textAlign: 'center', fontSize: 20, display: 'flex', flexDirection: 'column'}}>
-              <div style={{flex: 1}}></div>
+              <div style={{flex: 1}}>
+                {this.renderDots()}
+              </div>
               <div>
                 {card.frontText && <p>{card.frontText}</p>}
                 {card.frontLatex && <Latex>{card.frontLatex}</Latex>}
@@ -53,8 +69,8 @@ class Card extends React.Component {
               </div>
               <div style={{flex: 1}}></div>
             </div>
-          
         </ReactCardFlip>
+        </div>
       </div>
     );
   }

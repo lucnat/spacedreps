@@ -81,7 +81,7 @@ class Collection extends React.Component {
           <IonIcon icon={ellipsisHorizontal}/>
         </IonButton>
       }>
-        {this.state.cards.map(c => <Card key={c.id} card={c}/>)}
+        {this.state.cards.map(c => <Card key={c.id} card={c} renderDots/>)}
         {this.renderActionSheet()}
       </Page>
     );
