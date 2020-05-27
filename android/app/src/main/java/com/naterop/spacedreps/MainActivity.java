@@ -1,4 +1,4 @@
-package io.ionic.starter;
+package com.naterop.spacedreps;
 
 import android.os.Bundle;
 
