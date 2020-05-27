@@ -1,9 +1,10 @@
 
 import React from 'react'
 import Page from '../components/Page';
-import { IonButton } from '@ionic/react';
+import { IonButton, isPlatform } from '@ionic/react';
 import DB from '../db';
 import firebase from 'firebase'
+
 
 const Add = (props) => (
   <Page title="Add" large padding>
@@ -21,6 +22,12 @@ const Add = (props) => (
 
     <h2>Card</h2>
     <IonButton routerLink="/add/card">Create card</IonButton>
+    {
+      isPlatform('capacitor') &&     
+      <p>
+        To add cards conveniently at your PC, visit <a href="https://mathycards.now.sh">mathycards.now.sh</a>
+      </p>
+    }
   </Page>
 )
 

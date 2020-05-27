@@ -1,8 +1,7 @@
 import React from 'react';
-import { IonContent, IonHeader, IonPage, IonTitle, IonToolbar, IonButton, IonIcon } from '@ionic/react';
+import { IonButton } from '@ionic/react';
 import Page from '../components/Page';
 import DB from '../db';
-import { logOutOutline } from 'ionicons/icons';
 import firebase from "firebase"
 
 class Profile extends React.Component {
@@ -28,6 +27,15 @@ class Profile extends React.Component {
           for an exam session. Nevertheless, the product turns out to be immensely useful
           with regard to cementing formulas and concepts in math and science. 
         </p>
+        <p>
+          If you have suggestions for improvements feel free to write to contact the developer.
+          Note that development has just started, 
+          and new features will be added soon. However, the app is intended to be kept very simple.
+        </p>
+        <IonButton onClick={() => {
+          window.location = "mailto:luca@naterop.net";
+        }}>Contact Developer</IonButton>
+
       </Page>
     )
   }
