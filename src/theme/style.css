@@ -9,6 +9,7 @@ ion-card-subtitle {
   border-radius: 7px;
   box-shadow: 6px 6px 19px 0px rgba(214,214,214,1);
   height: 200px;
+  display: inline-block;
 }
 
 ion-button {

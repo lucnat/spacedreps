@@ -23,6 +23,12 @@ class Card extends React.Component {
   }
 
   handleClick() {
+    if(!window.Ionic.platforms.includes('capacitor')) {
+      if(!window.location.href.includes('add')) {
+        alert('You cannot flip cards here. Open the app to do that. To see the back content you can edit the card.');
+        return;
+      }
+    }
     this.setState(prevState => ({ isFlipped: !prevState.isFlipped }));
   }
 
@@ -67,10 +73,9 @@ class Card extends React.Component {
 
   render() {
     const card = this.props.card
-
     return (
       <div style={{textAlign: 'center'}}>
-        <div style={{maxWidth: 500, margin: '0 auto'}}>
+        <div style={{maxWidth: 450, margin: '0 auto'}}>
         <ReactCardFlip isFlipped={typeof this.props.flipped !== 'undefined' ? this.props.flipped : this.state.isFlipped}>
             <div
               onClick={this.handleClick.bind(this)} 
